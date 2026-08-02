@@ -10,7 +10,9 @@
 # Pouziti:  pravy klik -> "Spustit pomoci PowerShellu"
 #     nebo: powershell -File nasadit.ps1
 
-$ErrorActionPreference = "Stop"
+# Chyby z externich programu (git, gh) resime rucne pres $LASTEXITCODE.
+# "Stop" by tu skoncil i na necem, co je jen varovani na stderr.
+$ErrorActionPreference = "Continue"
 Set-Location -LiteralPath $PSScriptRoot
 
 $GH = "C:\Program Files\GitHub CLI\gh.exe"
@@ -53,11 +55,15 @@ try {
 
     # --- 3. odeslani do repozitare ----------------------------------------
     Krok 3 "Odesilam do repozitare $REPO"
-    & git remote remove origin *> $null
-    & git remote add origin "https://github.com/$REPO.git"
-    & git branch -M main
+    $stavajici = @(& git remote 2>$null)
+    if ($stavajici -contains "origin") {
+        & git remote set-url origin "https://github.com/$REPO.git" | Out-Null
+    } else {
+        & git remote add origin "https://github.com/$REPO.git" | Out-Null
+    }
+    & git branch -M main | Out-Null
     & git push -u origin main
-    if ($LASTEXITCODE -ne 0) { throw "Odeslani selhalo." }
+    if ($LASTEXITCODE -ne 0) { throw "Odeslani selhalo (kod $LASTEXITCODE)." }
     Write-Host "    hotovo"
 
     # --- 4. API klice jako Secrets ----------------------------------------
@@ -73,11 +79,17 @@ try {
     # --- 5. zapnuti GitHub Pages ------------------------------------------
     Krok 5 "Zapinam GitHub Pages"
     $telo = '{"source":{"branch":"main","path":"/docs"}}'
-    $telo | & $GH api "repos/$REPO/pages" -X POST --input - *> $null
+    $telo | & $GH api "repos/$REPO/pages" -X POST --input - 2>$null | Out-Null
     if ($LASTEXITCODE -ne 0) {
-        $telo | & $GH api "repos/$REPO/pages" -X PUT --input - *> $null
+        # uz zapnute -> jen prenastavime zdroj
+        $telo | & $GH api "repos/$REPO/pages" -X PUT --input - 2>$null | Out-Null
     }
-    Write-Host "    zapnuto (rozjezd trva par minut)"
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "    zapnuto (rozjezd trva par minut)"
+    } else {
+        Write-Host "    nepovedlo se automaticky - zapni rucne:" -ForegroundColor Yellow
+        Write-Host "    Settings -> Pages -> Source: Deploy from a branch -> main / docs" -ForegroundColor Yellow
+    }
 
     # --- 6. shrnuti --------------------------------------------------------
     Krok 6 "Hotovo"
