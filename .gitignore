@@ -1,0 +1,28 @@
+# hotove epizody se do repozitare necommitujou - lezi v Releases
+vystup/
+*.mp3
+
+# prepisy a preklady jsou cizi obsah - do verejneho repozitare nepatri
+*.txt
+
+# lokalni nastaveni editoru
+.claude/
+
+# vysledky a mezikroky z lokalniho ladeni
+epizoda_cz.*
+ukazka*.*
+how-franchise*.*
+how-the-iranian*.*
+why-apple*.*
+why-private*.*
+branko-milanovic*.*
+korektura_*.txt
+nalezene_chyby.txt
+beh_full.log
+hlasy/
+
+# ruzne
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

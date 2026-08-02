@@ -1,0 +1,93 @@
+name: Zpracovat epizodu
+
+# Spousti se jen rucne - tlacitkem na GitHubu (Actions -> Zpracovat epizodu
+# -> Run workflow). Funguje i z mobilniho prohlizece.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Adresa epizody z omny.fm"
+        required: true
+        type: string
+
+# workflow potrebuje zapisovat do repozitare (feed) a do Releases (MP3)
+permissions:
+  contents: write
+
+concurrency:
+  group: zpracovani-epizody
+  cancel-in-progress: false
+
+jobs:
+  zpracovat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Stáhnout repozitář
+        uses: actions/checkout@v4
+
+      - name: Připravit Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Nainstalovat závislosti
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -n 1
+
+      - name: Zpracovat epizodu
+        id: zpracovani
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_TTS_KEY: ${{ secrets.GOOGLE_TTS_KEY }}
+          PYTHONUTF8: "1"
+        run: python cloud/zpracuj.py "${{ inputs.url }}"
+
+      - name: Nahrát MP3 do Releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # jeden trvaly release "epizody"; kazda epizoda je v nem priloha
+          gh release view epizody >/dev/null 2>&1 || \
+            gh release create epizody --title "České epizody" \
+              --notes "Trvalé úložiště hotových MP3. Odkazy na přílohy se nemění."
+          gh release upload epizody "${{ steps.zpracovani.outputs.mp3 }}" --clobber
+
+      - name: Přidat do RSS feedu
+        run: |
+          SLUG="${{ steps.zpracovani.outputs.slug }}"
+          ADRESA="https://github.com/${{ github.repository }}/releases/download/epizody/${SLUG}_cz.mp3"
+          python cloud/feed.py \
+            --pridej "vystup/${SLUG}_cz.json" \
+            --mp3 "vystup/${SLUG}_cz.mp3" \
+            --mp3-url "$ADRESA"
+
+      - name: Uložit feed do repozitáře
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --staged --quiet; then
+            echo "Feed se nezměnil."
+          else
+            git commit -m "Feed: ${{ steps.zpracovani.outputs.nazev }}"
+            git push
+          fi
+
+      - name: Shrnutí
+        run: |
+          SLUG="${{ steps.zpracovani.outputs.slug }}"
+          {
+            echo "### Hotovo"
+            echo ""
+            echo "**Epizoda:** ${{ steps.zpracovani.outputs.nazev }}"
+            echo ""
+            echo "**MP3:** https://github.com/${{ github.repository }}/releases/download/epizody/${SLUG}_cz.mp3"
+            echo ""
+            echo "Feed se aktualizuje do minuty. V podcastové aplikaci stačí stáhnout dolů."
+          } >> "$GITHUB_STEP_SUMMARY"
