@@ -55,6 +55,17 @@ def vygeneruj(polozky):
       <itunes:explicit>false</itunes:explicit>
     </item>""")
 
+    # obal kanalu - podcastove aplikace ho beru odsud, v aplikaci ho zmenit nejde
+    obal = ""
+    if hlavni.get("obal"):
+        adresa = f"{zaklad}/{hlavni['obal']}"
+        obal = (f'    <itunes:image href="{escape(adresa)}"/>\n'
+                f'    <image>\n'
+                f'      <url>{escape(adresa)}</url>\n'
+                f'      <title>{escape(hlavni["nazev"])}</title>\n'
+                f'      <link>{escape(zaklad)}/</link>\n'
+                f'    </image>\n')
+
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
@@ -68,7 +79,7 @@ def vygeneruj(polozky):
     <itunes:author>{escape(hlavni['autor'])}</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:block>Yes</itunes:block>
-{chr(10).join(kusy)}
+{obal}{chr(10).join(kusy)}
   </channel>
 </rss>
 """

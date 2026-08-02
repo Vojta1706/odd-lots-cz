@@ -4,6 +4,7 @@
   "feed": {
     "nazev": "Odd Lots česky",
     "popis": "Soukromé české verze epizod podcastu Odd Lots. Neurčeno ke sdílení.",
-    "autor": "soukromý feed"
+    "autor": "soukromý feed",
+    "obal": "obal.jpg"
   }
 }
