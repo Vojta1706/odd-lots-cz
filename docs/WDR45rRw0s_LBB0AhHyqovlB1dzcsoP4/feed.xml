@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Odd Lots česky</title>
+    <description>Soukromé české verze epizod podcastu Odd Lots. Neurčeno ke sdílení.</description>
+    <link>https://vojta1706.github.io/odd-lots-cz/WDR45rRw0s_LBB0AhHyqovlB1dzcsoP4/</link>
+    <language>cs</language>
+    <atom:link href="https://vojta1706.github.io/odd-lots-cz/WDR45rRw0s_LBB0AhHyqovlB1dzcsoP4/feed.xml" rel="self" type="application/rss+xml"/>
+    <itunes:author>soukromý feed</itunes:author>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:block>Yes</itunes:block>
+    <item>
+      <title>The Creator of Claude Code on The Hottest Piece of Software in the World - Odd Lots</title>
+      <description>2026 has been, in terms of software, the year everyone is talking about Claude Code. Indeed, Anthropic&amp;#x27;s coding agent incited a market scare — and helped usher in the era of vibe coding — through its promise of streamlining software development for both pros and amateurs. Famously, Claude Code began as a side project of Anthropic led by Boris Cherny, who speaks to us today about the early days of Claude Code and how he and his team approach building an agentic coding tool. We also talk about the business aims of a harness like Claude Code, safety and alignment research, the specific skill</description>
+      <link>https://omny.fm/shows/odd-lots/the-creator-of-claude-code-on-the-hottest-piece-of-software-in-the-world</link>
+      <guid isPermaLink="false">the-creator-of-claude-code-on-the-hottest-piece-of-software-in-the-world</guid>
+      <pubDate>Sun, 02 Aug 2026 16:10:29 +0000</pubDate>
+      <enclosure url="https://github.com/Vojta1706/odd-lots-cz/releases/download/epizody/the-creator-of-claude-code-on-the-hottest-piece-of-software-in-the-world_cz.mp3" length="56011437" type="audio/mpeg"/>
+      <itunes:duration>00:58:20</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
+  </channel>
+</rss>
