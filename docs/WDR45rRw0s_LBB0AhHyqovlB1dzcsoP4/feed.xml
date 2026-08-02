@@ -11,6 +11,12 @@
     <itunes:author>soukromý feed</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:block>Yes</itunes:block>
+    <itunes:image href="https://vojta1706.github.io/odd-lots-cz/WDR45rRw0s_LBB0AhHyqovlB1dzcsoP4/obal.jpg"/>
+    <image>
+      <url>https://vojta1706.github.io/odd-lots-cz/WDR45rRw0s_LBB0AhHyqovlB1dzcsoP4/obal.jpg</url>
+      <title>Odd Lots česky</title>
+      <link>https://vojta1706.github.io/odd-lots-cz/WDR45rRw0s_LBB0AhHyqovlB1dzcsoP4/</link>
+    </image>
     <item>
       <title>The Creator of Claude Code on The Hottest Piece of Software in the World - Odd Lots</title>
       <description>2026 has been, in terms of software, the year everyone is talking about Claude Code. Indeed, Anthropic&amp;#x27;s coding agent incited a market scare — and helped usher in the era of vibe coding — through its promise of streamlining software development for both pros and amateurs. Famously, Claude Code began as a side project of Anthropic led by Boris Cherny, who speaks to us today about the early days of Claude Code and how he and his team approach building an agentic coding tool. We also talk about the business aims of a harness like Claude Code, safety and alignment research, the specific skill</description>
