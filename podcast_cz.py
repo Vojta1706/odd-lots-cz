@@ -778,19 +778,26 @@ CEKANI_ZAKLAD = 4    # zaklad exponencialniho cekani v sekundach
 DOCASNE_CHYBY = (408, 429, 500, 502, 503, 504, 529)
 
 
-def _s_opakovanim(popis, poslat, napoveda=""):
+def _s_opakovanim(popis, poslat, napoveda="", nutne=True):
     """Zavola API a pri docasne chybe to zkusi znovu.
 
     Bez tohohle staci jedno pretizeni serveru a spadne cely prevod epizody -
     vcetne uz zaplaceneho prekladu. Cekame exponencialne dlouho: 4, 8, 16, 32 s.
+
+    nutne=False znamena "kdyz to nevyjde, vrat None a nech beh pokracovat".
+    Pouziva to korektura: je to jen doladeni hotoveho prekladu, takze kvuli ni
+    nema smysl zahodit celou uz zaplacenou praci.
     """
     for pokus in range(1, POKUSU + 1):
         try:
             r = poslat()
         except requests.exceptions.RequestException as e:
             if pokus == POKUSU:
-                sys.exit(f"{popis}: spojení opakovaně selhalo ({type(e).__name__}).\n"
-                         "Zkontroluj internet a pusť to znovu.")
+                zprava = (f"{popis}: spojení opakovaně selhalo ({type(e).__name__}).")
+                if not nutne:
+                    print(f"\n    ! {zprava} Přeskakuji.", flush=True)
+                    return None
+                sys.exit(zprava + "\nZkontroluj internet a pusť to znovu.")
             cekej = CEKANI_ZAKLAD * (2 ** (pokus - 1))
             print(f"\n    ! spojení selhalo, zkusím to za {cekej} s "
                   f"(pokus {pokus} z {POKUSU})", flush=True)
@@ -811,9 +818,15 @@ def _s_opakovanim(popis, poslat, napoveda=""):
             time.sleep(cekej)
             continue
 
+        if not nutne:
+            print(f"\n    ! {popis} ({r.status_code}). Přeskakuji.", flush=True)
+            return None
         sys.exit(f"{popis} ({r.status_code}): {r.text[:400]}" +
                  (f"\n\n{napoveda}" if napoveda else ""))
 
+    if not nutne:
+        print(f"\n    ! {popis}: server nedostupný. Přeskakuji.", flush=True)
+        return None
     sys.exit(f"{popis}: server je opakovaně nedostupný. Zkus to za chvíli znovu.")
 
 
@@ -834,12 +847,17 @@ def _vytahni_json(text):
     return t
 
 
-def _claude(system, uzivatel, klic, max_tokens=8000, teplota=None):
+def _claude(system, uzivatel, klic, max_tokens=8000, teplota=None, cekani=300,
+            nutne=True):
     """Jedno zavolani Claude API, vraci text odpovedi.
 
     teplota=0 vypne nahodnost. Pouziva se u uloh, kde chceme pokazde stejny
     vysledek (korektura, urcovani mluvcich). U prekladu se nechava vychozi,
     protoze tam model potrebuje volit mezi formulacemi.
+
+    cekani = kolik sekund cekat na odpoved. Dlouha davka se generuje dlouho;
+    kdyz je limit pritazeny, spadne to na ReadTimeout porad dokola na stejnem
+    miste, protoze pri teplote 0 je odpoved pokazde stejne dlouha.
     """
     telo = {
         "model": MODEL,
@@ -850,7 +868,7 @@ def _claude(system, uzivatel, klic, max_tokens=8000, teplota=None):
     if teplota is not None:
         telo["temperature"] = teplota
 
-    r = _s_opakovanim("Chyba API", lambda: requests.post(
+    r = _s_opakovanim("Chyba API", nutne=nutne, poslat=lambda: requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={
             "x-api-key": klic,
@@ -858,8 +876,10 @@ def _claude(system, uzivatel, klic, max_tokens=8000, teplota=None):
             "content-type": "application/json",
         },
         json=telo,
-        timeout=180,
+        timeout=cekani,
     ))
+    if r is None:            # jen kdyz nutne=False - volajici si to osetri sam
+        return None
     return _vytahni_json(r.json()["content"][0]["text"])
 
 
@@ -1049,7 +1069,15 @@ def zkorektorovat(repliky, klic, rody=None):
             uzivatel += "\n\n"
         uzivatel += "Zkontroluj a oprav:\n" + json.dumps(data, ensure_ascii=False)
 
-        syrove = _claude(KOREKTURA_SYSTEM, uzivatel, klic, teplota=0)
+        # korektura je jen doladeni hotoveho prekladu - kdyz nevyjde, jde se dal
+        # s puvodnim textem. Delsi cekani proto, ze u velke davky trva odpoved
+        # klidne pres pet minut.
+        syrove = _claude(KOREKTURA_SYSTEM, uzivatel, klic, max_tokens=16000,
+                         teplota=0, cekani=900, nutne=False)
+        if syrove is None:
+            print("  ! korektura tuhle část přeskočila, nechávám původní text")
+            vysledek.extend(okno)
+            continue
 
         try:
             opravene = json.loads(syrove)
