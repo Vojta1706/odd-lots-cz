@@ -1,5 +1,16 @@
 [
   {
+    "slug": "nick-bostrom-on-what-happens-if-ai-solves-all-of-our-problems",
+    "nazev": "Nick Bostrom on What Happens if AI Solves All of Our Problems - Odd Lots",
+    "popis": "The philosopher Nick Bostrom was one of the first thinkers who mapped out the existential risk of AI. In his 2014 book, Superintelligence: Paths, Dangers, Strategies, he delved into various scenarios — like the now-famous “paperclip maximizer” — to show the dangers that unfettered and highly intelligent AI posed to humans. A decade later, in Deep Utopia: Life and Meaning in a Solved World, he looked at the other side of the AI coin, and theorizes what human experience might look like if AI is capable of solving all of our problems. What happens if AI and robots can literally do every single th",
+    "zdroj": "https://omny.fm/shows/odd-lots/nick-bostrom-on-what-happens-if-ai-solves-all-of-our-problems?in_playlist=podcast",
+    "soubor": "nick-bostrom-on-what-happens-if-ai-solves-all-of-our-problems_cz.mp3",
+    "velikost": 44895405,
+    "vytvoreno": "Thu, 20 Aug 2026 13:47:37 +0000",
+    "mp3_url": "https://github.com/Vojta1706/odd-lots-cz/releases/download/epizody/nick-bostrom-on-what-happens-if-ai-solves-all-of-our-problems_cz.mp3",
+    "delka_s": 2805
+  },
+  {
     "slug": "what-the-openai-hugging-face-hack-really-tells-us-about-ai-danger",
     "nazev": "What the OpenAI-Hugging Face Hack Really Tells Us About AI Danger - Odd Lots",
     "popis": "Scenarios that used to be the domain of sci-fi writers are coming true. We have machines that can talk. We have machines that are capable of ignoring the intent of their creators. And we have machines that are capable of planning and coordinating with other machines to deceive their creators. All of this came together last month, when it was revealed that an unreleased OpenAI model had hacked into the Hugging Face platform in order to obtain answers to an exam it was given. That was alarming enough, but the details that have emerged since then have been even more remarkable. On this episode, w",
