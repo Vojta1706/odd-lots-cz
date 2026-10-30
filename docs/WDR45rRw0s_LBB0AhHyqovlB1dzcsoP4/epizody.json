@@ -1,5 +1,16 @@
 [
   {
+    "slug": "php2shell-wont-be-the-last-big-ai-cybersecurity-risk",
+    "nazev": "PHP2Shell Won&#x27;t Be the Last Big AI Cybersecurity Risk - Odd Lots",
+    "popis": "Earlier this year, cybersecurity researchers discovered a vulnerability in PHP, an open-source coding language used in roughly 70% of the world&#x27;s websites, that had been lying dormant for a long time, and if exploited, could have led to disaster. And the researchers only understood the extent of this bug through the use of frontier AI models. Today, we talk to two staffers at Calif (CEO Thai Duong and engineer Bruce Dang), the cybersecurity firm that was among the first to discover the PHP vulnerability. Their firm partners with the major AI labs and neoclouds, and they help these compani",
+    "zdroj": "https://omny.fm/shows/odd-lots/php2shell-wont-be-the-last-big-ai-cybersecurity-risk?in_playlist=podcast",
+    "soubor": "php2shell-wont-be-the-last-big-ai-cybersecurity-risk_cz.mp3",
+    "velikost": 34721708,
+    "vytvoreno": "Fri, 30 Oct 2026 17:14:53 +0000",
+    "mp3_url": "https://github.com/Vojta1706/odd-lots-cz/releases/download/epizody/php2shell-wont-be-the-last-big-ai-cybersecurity-risk_cz.mp3",
+    "delka_s": 2170
+  },
+  {
     "slug": "102926-odd-lots-alex-altmann-mixdown",
     "nazev": "What Wall Street Really Thinks About the AI Trade Now - Odd Lots",
     "popis": "It has been a big week for the AI trade — we&#x27;ve seen wobbles in the market, many of them in response to headlines like the Anthropic S-1 and earnings from the hyperscalers (Oracle, Microsoft, etc.). So what does Wall Street make of all the news, and how are they processing an increasing sense that the laws of the economy barely apply to AI? Today, we speak with Alexander &#x27;Alty&#x27; Altmann, global head of equities tactical strategies at Barclays, and he helps us make sense of how Wall Street really feels about the AI trade right now. We also talk about the KOSPI-fication of the S&P ",
