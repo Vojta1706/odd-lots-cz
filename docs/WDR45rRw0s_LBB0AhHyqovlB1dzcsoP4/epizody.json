@@ -1,5 +1,16 @@
 [
   {
+    "slug": "the-300-billion-structured-notes-market-is-booming",
+    "nazev": "The $300 Billion Structured Notes Market Is Booming - Odd Lots",
+    "popis": "The structured products business in the US has gotten very large recently — on track to hit $300 billion in sales this year. That they are all the rage means a once opaque financial product is getting a lot more attention. So what are structured products, exactly, and how are they influencing the economy? In short, structured products are basically a fusion of a bank IOU with a derivative product, but that underplays how complex these things are and how they are shaping market dynamics. What is particularly interesting about structured notes is how they&#x27;ve become a stand-in for how invest",
+    "zdroj": "https://omny.fm/shows/odd-lots/the-300-billion-structured-notes-market-is-booming?in_playlist=podcast",
+    "soubor": "the-300-billion-structured-notes-market-is-booming_cz.mp3",
+    "velikost": 43011884,
+    "vytvoreno": "Wed, 04 Nov 2026 20:27:10 +0000",
+    "mp3_url": "https://github.com/Vojta1706/odd-lots-cz/releases/download/epizody/the-300-billion-structured-notes-market-is-booming_cz.mp3",
+    "delka_s": 2688
+  },
+  {
     "slug": "php2shell-wont-be-the-last-big-ai-cybersecurity-risk",
     "nazev": "PHP2Shell Won&#x27;t Be the Last Big AI Cybersecurity Risk - Odd Lots",
     "popis": "Earlier this year, cybersecurity researchers discovered a vulnerability in PHP, an open-source coding language used in roughly 70% of the world&#x27;s websites, that had been lying dormant for a long time, and if exploited, could have led to disaster. And the researchers only understood the extent of this bug through the use of frontier AI models. Today, we talk to two staffers at Calif (CEO Thai Duong and engineer Bruce Dang), the cybersecurity firm that was among the first to discover the PHP vulnerability. Their firm partners with the major AI labs and neoclouds, and they help these compani",
